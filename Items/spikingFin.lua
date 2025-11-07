@@ -1,33 +1,35 @@
-local sprite_fin = Resources.sprite_load(NAMESPACE, "spikingFin", path.combine(PATH, "Sprites/item/spikingFin.png"), 1, 16, 16)
-local eLem = Object.find("ror", "LizardF")
-local eLemG = Object.find("ror", "LizardFG")
+local sprite_fin = Sprite.new("spikingFin", path.combine(PATH, "Sprites/item/spikingFin.png"), 1, 16, 16)
+local eLem = Object.find("LizardF")
+local eLemG = Object.find("LizardFG")
 
-local fin = Item.new(NAMESPACE, "spikingFin")
+local fin = Item.new("spikingFin")
 fin:set_sprite(sprite_fin)
-fin:set_tier(Item.TIER.uncommon)
-fin:set_loot_tags(Item.LOOT_TAG.category_damage)
-fin:clear_callbacks()
+fin:set_tier(ItemTier.UNCOMMON)
+fin.loot_tags = Item.LootTag.CATEGORY_DAMAGE
 
-local shockwave = Object.new(NAMESPACE, "spikingFinShockwave")
-shockwave:clear_callbacks()
+local log = ItemLog.new_from_item(fin)
+log.group = ItemLog.Group.UNCOMMON
+
+local shockwave = Object.new("spikingFinShockwave")
 shockwave.obj_sprite = gm.constants.sSparks4
 
-shockwave:onCreate(function(self)
+Callback.add(shockwave.on_create, function(self)
 	self.image_speed = 0
 	self.image_index = 0
 	self.speed = 12
-	self.parent = self:get_data().parent
-	self:get_data().hit_list = {}
-	self:get_data().lifetime = 50
+	self.parent = Instance.get_data(self).parent
+	Instance.get_data(self).hit_list = {}
+	Instance.get_data(self).lifetime = 50
 	self:move_contact_solid(270, -1)
 end)
-shockwave:onStep(function(self)
+
+Callback.add(shockwave.on_step, function(self)
 	if not Instance.exists(self.parent) then
 		self:destroy()
 		return
 	end
 
-	local data = self:get_data()
+	local data = Instance.get_data(self)
 
 	data.lifetime = data.lifetime - 1
 	if data.lifetime < 0 then
@@ -44,42 +46,44 @@ shockwave:onStep(function(self)
 
 	for _, actor in ipairs(actors) do
 		if self:attack_collision_canhit(actor) and not data.hit_list[actor.id] then
-			if gm._mod_net_isHost() then
-				if actor.elite_type ~= -1 then
+			if Net.host then
 					local direct = self.parent:fire_direct(actor, 1, self.direction, self.x, self.y, gm.constants.sSparks11).attack_info
-					direct:set_damage((self:get_data().enemymaxhp * ((0.13 * self.parent:item_stack_count(fin)) / (1 + 0.13 * self.parent:item_stack_count(fin)))) * 0.5)
-					direct:set_stun(1)
-				else
-					local direct = self.parent:fire_direct(actor, 1, self.direction, self.x, self.y, gm.constants.sSparks11).attack_info
-					direct:set_damage(self:get_data().enemymaxhp * ((0.13 * self.parent:item_stack_count(fin)) / (1 + 0.13 * self.parent:item_stack_count(fin))))
-					direct:set_stun(1)					
+					direct:set_damage((self.parent.damage * 3) * self.parent:item_count(fin))
+					direct:set_knockback(-actor.image_xscale, 120, 6, 1)		
+				-- if actor.elite_type ~= -1 then
+					-- local direct = self.parent:fire_direct(actor, 1, self.direction, self.x, self.y, gm.constants.sSparks11).attack_info
+					-- direct:set_damage((Instance.get_data(self).enemymaxhp * ((0.13 * self.parent:item_count(fin)) / (1 + 0.13 * self.parent:item_count(fin)))) * 0.5)
+					-- direct:set_knockback(self.image_xscale, 60, 3, 1)
+				-- else
+					-- local direct = self.parent:fire_direct(actor, 1, self.direction, self.x, self.y, gm.constants.sSparks11).attack_info
+					-- direct:set_damage(Instance.get_data(self).enemymaxhp * ((0.13 * self.parent:item_count(fin)) / (1 + 0.13 * self.parent:item_count(fin))))
+					-- direct:set_knockback(self.image_xscale, 60, 3, 1)		
 					
-				end
+				-- end
 			end 	
 			data.hit_list[actor.id] = true
 		end
 	end
 end)
 
-local debuffspiking = Buff.new(NAMESPACE, "debuffspiking")
+local debuffspiking = Buff.new("debuffspiking")
 debuffspiking.show_icon = false
 debuffspiking.is_debuff = true
 debuffspiking.max_stack = 1
 
-local rubble = Particle.find("ror", "Rubble1")
+local rubble = Particle.find("Rubble1")
 
-debuffspiking:clear_callbacks()
-debuffspiking:onApply(function(actor, stack)
-	actor:get_data().spiking_timer = 0
+Callback.add(debuffspiking.on_apply, function(actor)
+	Instance.get_data(actor).spiking_timer = 0
 	actor.pVspeed = -14
 end)
 
-debuffspiking:onPostStep(function(actor, stack)
-	if gm._mod_net_isClient() then return end
+Callback.add(debuffspiking.on_step, function(actor)
+	if Net.client then return end
 	
-	actor:set_immune(1)
+	actor.immune = 1
 	
-	local data = actor:get_data()
+	local data = Instance.get_data(actor)
 	data.spiking_timer = data.spiking_timer + 1
 	
 	if actor:is_colliding(gm.constants.pBlock, actor.x, actor.y - 6) and GM.actor_is_classic(actor) then
@@ -95,16 +99,16 @@ debuffspiking:onPostStep(function(actor, stack)
 			actor.pVspeed = actor.pVspeed + 5
 			actor.fallImmunity = true
 			if actor:is_colliding(gm.constants.pBlock, actor.x, actor.y + 5) then
-				if data.applier:exists() then
+				if Instance.exists(data.applier) then
 					local wave1 = shockwave:create(actor.x, actor.y + 10)
 					wave1.parent = data.applier
-					wave1:get_data().enemymaxhp = actor.maxhp
+					Instance.get_data(wave1).enemymaxhp = actor.maxhp
 					wave1.team = data.applier.team
 					wave1.direction = 0
 					wave1.image_xscale = 1
 					local wave2 = shockwave:create(actor.x, actor.y + 10)
 					wave2.parent = data.applier
-					wave2:get_data().enemymaxhp = actor.maxhp
+					Instance.get_data(wave2).enemymaxhp = actor.maxhp
 					wave2.team = data.applier.team
 					wave2.direction = 180
 					wave2.image_xscale = -1
@@ -119,7 +123,7 @@ debuffspiking:onPostStep(function(actor, stack)
 		if not GM.actor_is_boss(actor) and not GM.actor_is_classic(actor) then
 			actor.y = actor.y + 25
 			if actor:is_colliding(gm.constants.pBlock, actor.x, actor.y + 5) then
-				if data.applier:exists() then
+				if Instance.exists(data.applier) then
 					local wave1 = shockwave:create(actor.x, actor.y + 10)
 					wave1.parent = data.applier
 					wave1.team = data.applier.team
@@ -141,39 +145,39 @@ debuffspiking:onPostStep(function(actor, stack)
 	end
 end)
 
-debuffspiking:onRemove(function(actor, stack)
-	actor:kill()
+Callback.add(debuffspiking.on_remove, function(actor)
+	-- actor:kill() doesn't work bc rapi was totally ready to be released this soon
+	actor.hp = -1000
 end)
 
 local guarded = false
 
-gm.pre_script_hook(gm.constants.actor_phy_on_landed, function(self, other, result, args)
+Hook.add_pre(gm.constants.actor_phy_on_landed, function(self, other, result, args)
     local real_self = Instance.wrap(self)
-    if not gm.bool(self.intangible) and real_self.fallImmunity then
+    if not Util.bool(self.intangible) then
         self.intangible = 1
         guarded = true
-        real_self.fallImmunity = false
     end
 end)
 
-gm.post_script_hook(gm.constants.actor_phy_on_landed, function(self, other, result, args)
+Hook.add_post(gm.constants.actor_phy_on_landed, function(self, other, result, args)
     if guarded then
         self.intangible = 0
         guarded = false
     end
 end)
 
-Callback.add(Callback.TYPE.onDamagedProc, "spikingFinExecute", function(actor, hit_info)
+Callback.add(Callback.ON_DAMAGED_PROC, function(actor, hit_info)
 	local inflictor = (Instance.wrap(hit_info.inflictor))
 	if GM.actor_is_classic(actor) and not GM.actor_is_boss(actor) then
 		if actor.object_index ~= gm.constants.oLizardFG and actor.object_index ~= gm.constants.oLizardF then
-			if inflictor:exists() and inflictor:item_stack_count(fin) > 0 then
-				if actor.elite_type ~= -1 and actor.hp <= actor.maxhp * ((0.13 * inflictor:item_stack_count(fin)) / (1 + 0.13 * inflictor:item_stack_count(fin))) then
+			if Instance.exists(inflictor) and inflictor:item_count(fin) > 0 then
+				if actor.elite_type ~= -1 and actor.hp <= actor.maxhp * ((0.13 * inflictor:item_count(fin)) / (1 + 0.13 * inflictor:item_count(fin))) then
 					if actor.hp <= 0 then
 						actor.hp = 1
 						actor.dead = false
 					end
-					actor:get_data().applier = inflictor
+					Instance.get_data(actor).applier = inflictor
 					actor:buff_apply(debuffspiking, 600)
 				end
 			end

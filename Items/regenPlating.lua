@@ -1,21 +1,22 @@
-local sprite_plate = Resources.sprite_load(NAMESPACE, "regenPlating", path.combine(PATH, "Sprites/item/regenPlating.png"), 1, 16, 16)
-local sprite_plate_used = Resources.sprite_load(NAMESPACE, "regenPlatingUsed", path.combine(PATH, "Sprites/item/regenPlatingUsed.png"), 1, 16, 16)
+local sprite_plate = Sprite.new("regenPlating", path.combine(PATH, "Sprites/item/regenPlating.png"), 1, 16, 16)
+local sprite_plate_used = Sprite.new("regenPlatingUsed", path.combine(PATH, "Sprites/item/regenPlatingUsed.png"), 1, 16, 16)
 
-local plate = Item.new(NAMESPACE, "regenPlating")
+local plate = Item.new("regenPlating")
 plate:set_sprite(sprite_plate)
-plate:set_tier(Item.TIER.uncommon)
-plate:set_loot_tags(Item.LOOT_TAG.category_utility, Item.LOOT_TAG.category_healing)
-plate:clear_callbacks()
+plate:set_tier(ItemTier.UNCOMMON)
+plate.loot_tags = Item.LootTag.CATEGORY_UTILITY, Item.LootTag.CATEGORY_HEALING
 
-local plate_used = Item.new(NAMESPACE, "regenPlatingUsed")
+local log = ItemLog.new_from_item(plate)
+log.group = ItemLog.Group.UNCOMMON
+
+local plate_used = Item.new("regenPlatingUsed")
 plate_used:set_sprite(sprite_plate_used)
 plate_used:toggle_loot(false)
-plate_used:set_loot_tags(Item.LOOT_TAG.item_blacklist_vendor, Item.LOOT_TAG.item_blacklist_infuser)
-plate_used:clear_callbacks()
+plate_used.loot_tags = Item.LootTag.ITEM_BLACKLIST_VENDOR, Item.LootTag.ITEM_BLACKLIST_INFUSER
 
 --Create var in actor used to track drone purchases
-plate:onAcquire(function(actor, stack)
-	local data = actor:get_data()
+Callback.add(plate.on_acquired, function(actor, stack)
+	local data = Instance.get_data(actor)
 
 	--Tracks number of drones bought
 	if not data.platingDroneBuy then
@@ -44,14 +45,14 @@ end)
 --shoutouts to On_x for helping me understand hooks
 --called when a drone is spawned
 --post script bc that's after it determines its master
-gm.post_script_hook(gm.constants.init_drone, function(self, other)
+Hook.add_post(gm.constants.init_drone, function(self, other)
 	--"Master" is the drone's variable for its owner/parent/the player actor
 	--needs to be wrapped to be used in hook
 	local master = Instance.wrap(self.master)
-	local data = master:get_data()
-	if master:item_stack_count(plate) > 0 then
+	local data = Instance.get_data(master)
+	if master:item_count(plate) > 0 then
 	
-		gm.sound_play_networked(gm.constants.wCrit2, 1, 0.5, master.x, master.y)
+		Sound.wrap(gm.constants.wCrit2):play(master.x, master.y, 1, 0.5)
 		local flash = GM.instance_create(self.x, self.y, gm.constants.oEfFlash)
 		flash.parent = self
 		flash.rate = 0.05
@@ -70,24 +71,24 @@ gm.post_script_hook(gm.constants.init_drone, function(self, other)
 		--If our drones bought equals the limit, consume a stack of the item
 		--(+temp item handling)
 		if data.platingDroneBuy >= data.platingDroneLimit then
-			gm.sound_play_networked(gm.constants.wDroneDeath, 1, 0.7, master.x, master.y)
-			local normal = master:item_stack_count(plate, Item.STACK_KIND.normal)
-			local temp = master:item_stack_count(plate, Item.STACK_KIND.temporary_blue)
-			local temp2 = master:item_stack_count(plate, Item.STACK_KIND.temporary_red)
+			Sound.wrap(gm.constants.wDroneDeath):play(master.x, master.y, 1, 0.7)
+			local normal = master:item_count(plate, Item.StackKind.NORMAL)
+			local temp = master:item_count(plate, Item.StackKind.TEMPORARY_BLUE)
+			local temp2 = master:item_count(plate, Item.StackKind.TEMPORARY_RED)
 		
 			if normal > 0 and not (temp > 0 or temp2 > 0) then
-				master:item_remove(plate, 1, Item.STACK_KIND.normal)
-				master:item_give(plate_used, 1, Item.STACK_KIND.normal)
+				master:item_take(plate, 1, Item.StackKind.NORMAL)
+				master:item_give(plate_used, 1, Item.StackKind.NORMAL)
 			end
 		
 			if temp > 0 then
-				master:item_remove(plate, 1, Item.STACK_KIND.temporary_blue)
-				master:item_give(plate_used, 1, Item.STACK_KIND.temporary_blue)
+				master:item_take(plate, 1, Item.StackKind.TEMPORARY_BLUE)
+				master:item_give(plate_used, 1, Item.StackKind.TEMPORARY_BLUE)
 			end
 		
 			if temp2 > 0 then
-				master:item_remove(plate, 1, Item.STACK_KIND.temporary_red)
-				master:item_give(plate_used, 1, Item.STACK_KIND.temporary_red)
+				master:item_take(plate, 1, Item.StackKind.TEMPORARY_RED)
+				master:item_give(plate_used, 1, Item.StackKind.TEMPORARY_RED)
 			end
 			
 			--reset drones bought variable
@@ -98,30 +99,31 @@ gm.post_script_hook(gm.constants.init_drone, function(self, other)
 end)
 
 --replenish Regen Plate frome used plate
-plate_used:onStageStart(function(actor, stack)
+Callback.add(Callback.ON_STAGE_START, function()
 
-	local normal = actor:item_stack_count(plate_used, Item.STACK_KIND.normal)
-    local temp = actor:item_stack_count(plate_used, Item.STACK_KIND.temporary_blue)
-	local temp2 = actor:item_stack_count(plate, Item.STACK_KIND.temporary_red)
-	
-	if normal > 0 then
-		actor:item_give(plate, normal, Item.STACK_KIND.normal)
-		actor:item_remove(plate_used, normal, Item.STACK_KIND.normal)
+	for _, actor in ipairs(plate_used:get_holding_actors()) do
+		Instance.get_data(actor).platingDroneBuy = 0 
+		local normal = actor:item_count(plate_used, Item.StackKind.NORMAL)
+		local temp = actor:item_count(plate_used, Item.StackKind.TEMPORARY_BLUE)
+		local temp2 = actor:item_count(plate, Item.StackKind.TEMPORARY_RED)
+		
+		if normal > 0 then
+			actor:item_give(plate, normal, Item.StackKind.NORMAL)
+			actor:item_take(plate_used, normal, Item.StackKind.NORMAL)
+		end
+		
+		if temp > 0 then
+			actor:item_give(plate, temp, Item.StackKind.TEMPORARY_BLUE)
+			actor:item_take(plate_used, temp, Item.StackKind.TEMPORARY_BLUE)
+		end
+		
+		if temp > 0 then
+			actor:item_give(plate, temp, Item.StackKind.TEMPORARY_RED)
+			actor:item_take(plate_used, temp, Item.StackKind.TEMPORARY_RED)
+		end
 	end
 	
-	if temp > 0 then
-		actor:item_give(plate, temp, Item.STACK_KIND.temporary_blue)
-		actor:item_remove(plate_used, temp, Item.STACK_KIND.temporary_blue)
+	for _, actor in ipairs(plate:get_holding_actors()) do
+		Instance.get_data(actor).platingDroneBuy = 0 
 	end
-	
-	if temp > 0 then
-		actor:item_give(plate, temp, Item.STACK_KIND.temporary_red)
-		actor:item_remove(plate_used, temp, Item.STACK_KIND.temporary_red)
-	end
-
-end)
-
-plate:onStageStart(function(actor, stack)
-	local data = actor:get_data()
-	data.platingDroneBuy = 0 	
 end)

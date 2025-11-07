@@ -1,35 +1,36 @@
-local sprite_holy = Resources.sprite_load(NAMESPACE, "holyPauldronSprite", path.combine(PATH, "Sprites/item/holyPauldron.png"), 1, 17, 17)
-local sprite_buff = Resources.sprite_load(NAMESPACE, "holyBuffIcon", path.combine(PATH, "Sprites/buffs/moonrockBuff1.png"), 1, 8, 8)
+local sprite_holy = Sprite.new("holyPauldronSprite", path.combine(PATH, "Sprites/item/holyPauldron.png"), 1, 17, 17)
+local sprite_buff = Sprite.new("holyBuffIcon", path.combine(PATH, "Sprites/buffs/moonrockBuff1.png"), 1, 8, 8)
 
-local holy = Item.new(NAMESPACE, "holyPauldron")
+local holy = Item.new("holyPauldron", NAMESPACE)
 holy:set_sprite(sprite_holy)
-holy:set_tier(Item.TIER.rare)
-holy:set_loot_tags(Item.LOOT_TAG.category_utility, Item.LOOT_TAG.category_healing)
-holy:clear_callbacks()
+holy:set_tier(ItemTier.RARE)
+holy.loot_tags = Item.LootTag.CATEGORY_HEALING, Item.LootTag.CATEGORY_UTILITY
 
-local holyBuff = Buff.new(NAMESPACE, "holyPauldronNoDecay")
+local log = ItemLog.new_from_item(holy)
+log.group = ItemLog.Group.RARE
+
+local holyBuff = Buff.new("holyPauldronNoDecay", NAMESPACE)
 holyBuff.show_icon = true
 holyBuff.icon_sprite = sprite_buff
-holyBuff:clear_callbacks()
 
--- holy:onAcquire(function(actor, stack)
-
--- end)
-
-holy:onKillProc(function(actor, victim, stack)
-	
-	if victim:actor_is_elite(victim) then
-		actor:add_barrier(actor.maxbarrier * (0.10 + (0.15 * stack)))
-		actor:buff_apply(holyBuff, 60 * (2 + (3 * stack)))
+Callback.add(Callback.ON_KILL_PROC, function(target, attacker)
+	if attacker:item_count(holy) <= 0 then return end
+	local stacks = attacker:item_count(holy)
+	--checks if the enemy is an elite of any type
+	if target.elite_type ~= -1 then
+		attacker:heal_barrier(attacker.maxbarrier * ((0.15 * stacks) - 0.05))
+		attacker:buff_apply(holyBuff, 60 * (2 + (3 * stacks)))
 	end
 	
 end)
 
-holyBuff:onPostStep(function(actor)
+Callback.add(holyBuff.on_step, function()
 
 --stops barrier decay by adding the decay formula directly to barrier stat
-if gm.bool(actor.barrier) then
-	actor.barrier = actor.barrier + ((actor.maxbarrier / 30 / 60) * gm.lerp(0.5, 3, actor.barrier / actor.maxbarrier))
+for _, actor in ipairs(holy:get_holding_actors()) do
+	if Util.bool(actor.barrier) then
+		actor.barrier = actor.barrier + ((actor.maxbarrier / 30 / 60) * gm.lerp(0.5, 3, actor.barrier / actor.maxbarrier))
+	end
 end
 
 end)

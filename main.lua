@@ -1,10 +1,12 @@
 --Overtime Cargo
 --CoolLoadersInc
 
-mods["RoRRModdingToolkit-RoRR_Modding_Toolkit"].auto(true)
+mods["ReturnsAPI-ReturnsAPI"].auto{
+    namespace   = "OvertimeCargo",
+    mp          = true
+}
 
-PATH = _ENV["!plugins_mod_folder_path"]
-NAMESPACE = "OvertimeCargo"
+PATH = _ENV["!plugins_mod_folder_path"].."/"
 
 local init = function()
 	local folders = {
@@ -24,7 +26,7 @@ local init = function()
 
 	HOTLOADING = true
 end
-Initialize(init)
+Initialize.add(init)
 
 if HOTLOADING then
 	init()

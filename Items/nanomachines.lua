@@ -1,21 +1,24 @@
-local sprite_nanomachines = Resources.sprite_load(NAMESPACE, "nanomachines", path.combine(PATH, "Sprites/item/nanomachines.png"), 1, 16, 15)
+local sprite_nanomachines = Sprite.new("nanomachines", path.combine(PATH, "Sprites/item/nanomachines.png"), 1, 16, 15)
 
-local son = Item.new(NAMESPACE, "nanomachines")
+local son = Item.new("nanomachines")
 son:set_sprite(sprite_nanomachines)
-son:set_tier(Item.TIER.rare)
-son:set_loot_tags(Item.LOOT_TAG.category_utility, Item.LOOT_TAG.category_healing)
-son:clear_callbacks()
+son:set_tier(ItemTier.RARE)
+son.loot_tags = Item.LootTag.CATEGORY_UTILITY, Item.LootTag.CATEGORY_HEALING
 
-local buffArmor = Buff.new(NAMESPACE, "nanoArmorBuff")
-buffArmor:clear_callbacks()
+local log = ItemLog.new_from_item(son)
+log.group = ItemLog.Group.RARE
+
+local buffArmor = Buff.new("nanoArmorBuff")
 buffArmor.max_stack = 1
 buffArmor.show_icon = false
 
-buffArmor:onStatRecalc(function(actor, stack)
-	actor.armor = actor.armor + ((actor.maxshield_base * stack) * 0.5)
+RecalculateStats.add(function(actor)
+	local stack = actor:buff_count(buffArmor)
+	if stack <= 0 then return end
+	actor.armor = actor.armor + ((actor.maxshield_base * actor:item_count(son)) * 0.5)
 end)
 
-son:onAcquire(function(actor, stack)
+Callback.add(son.on_acquired, function(actor)
 
 	if actor.nanCooldown == nil then
 		actor.nanCooldown = 0
@@ -31,15 +34,18 @@ son:onAcquire(function(actor, stack)
 
 end)
 
-son:onDamagedProc(function(actor, attacker, stack, hit_info)
+Callback.add(Callback.ON_DAMAGED_PROC, function(actor, hit_info)
 --credit to TryAgain211 for helping with most of this implementation
+	if Net.client then return end
+	
+	if actor:item_count(son) <= 0 then return end
+	local stack = actor:item_count(son)
 
 	if actor.nanCooldown <= 0 and actor.shield < 1 and actor.hp <= actor.maxhp * 0.5 then
 		actor.maxshield_base = actor.maxshield_base + (30 * stack)
 		actor.shieldStore = actor.shieldStore + (30 * stack)
 		actor.shield = actor.maxshield_base
-		actor:recalculate_stats()
-		gm.sound_play_networked(gm.constants.wDroneUpgrader_Activate, 2, 1.2, actor.x, actor.y)
+		Sound.wrap(gm.constants.wDroneUpgrader_Activate):play(actor.x, actor.y, 2, 1.2)
 		
 		local flash = GM.instance_create(actor.x, actor.y, gm.constants.oEfFlash)
 		flash.parent = actor
@@ -59,23 +65,25 @@ son:onDamagedProc(function(actor, attacker, stack, hit_info)
 
 end)
 
-son:onPostStep(function(actor, stack)
-	if gm.bool(actor.shield) then
-		actor:buff_apply(buffArmor, 30)
-	end
-	
-	if actor.nanCooldown and actor.nanCooldown > 0 then
-		actor.nanCooldown = actor.nanCooldown - 1
-	end
-	
-	if actor.nanCooldown and actor.nanCooldown <= 0 and actor.procced == true then
-		gm.sound_play_networked(gm.constants.wDroneUpgrader_Activate, 2, 0.8, actor.x, actor.y)
-		local flash = GM.instance_create(actor.x, actor.y, gm.constants.oEfFlash)
-		flash.parent = actor
-		flash.rate = 0.05
-		flash.image_alpha = 0.8
-		flash.image_blend = Color.AQUA
-		actor.procced = false
+Callback.add(Callback.ON_STEP, function()
+	for _, actor in ipairs(son:get_holding_actors()) do
+		if Util.bool(actor.shield) then
+			actor:buff_apply(buffArmor, 30)
+		end
+		
+		if actor.nanCooldown and actor.nanCooldown > 0 then
+			actor.nanCooldown = actor.nanCooldown - 1
+		end
+		
+		if actor.nanCooldown and actor.nanCooldown <= 0 and actor.procced == true then
+			Sound.wrap(gm.constants.wDroneUpgrader_Activate):play(actor.x, actor.y, 2, 0.8)
+			local flash = GM.instance_create(actor.x, actor.y, gm.constants.oEfFlash)
+			flash.parent = actor
+			flash.rate = 0.05
+			flash.image_alpha = 0.8
+			flash.image_blend = Color.AQUA
+			actor.procced = false
+		end
 	end
 
 end)

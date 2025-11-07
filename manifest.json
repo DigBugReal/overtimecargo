@@ -4,8 +4,8 @@
 	"website_url": "https://github.com/AzulineSkye/overtimecargo",
 	"description": "An item mod loosely based on ROR1's After Hours Cargo.",
 	"dependencies": [
-		"ReturnOfModding-ReturnOfModding-1.0.56",
-		"RoRRModdingToolkit-RoRR_Modding_Toolkit-1.2.8",
-		"MGReturns-ENVY-1.1.1"
+		"ReturnsAPI-ReturnsAPI-0.1.26",
+		"ReturnOfModding-ReturnOfModding-1.1.9",
+		"LuaENVY-ENVY-1.2.0"
 	]
 }

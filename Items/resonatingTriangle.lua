@@ -1,49 +1,58 @@
-local sprite_triangle = Resources.sprite_load(NAMESPACE, "resonatingTriangle", path.combine(PATH, "Sprites/item/resonatingTriangle.png"), 1, 16, 16)
-local sprite_buff = Resources.sprite_load(NAMESPACE, "resonatingTriangleBuff", path.combine(PATH, "Sprites/buffs/resonatingTriangleBuff.png"), 1, 10, 8)
+local sprite_triangle = Sprite.new("resonatingTriangle", path.combine(PATH, "Sprites/item/resonatingTriangle.png"), 1, 16, 16)
+local sprite_buff = Sprite.new("resonatingTriangleBuff", path.combine(PATH, "Sprites/buffs/resonatingTriangleBuff.png"), 1, 10, 8)
 
-local tri = Item.new(NAMESPACE, "resonatingTriangle")
+local tri = Item.new("resonatingTriangle")
 tri:set_sprite(sprite_triangle)
-tri:set_tier(Item.TIER.common)
-tri:set_loot_tags(Item.LOOT_TAG.category_damage)
-tri:clear_callbacks()
+tri:set_tier(ItemTier.COMMON)
+tri.loot_tags = Item.LootTag.CATEGORY_DAMAGE
 
-local buff = Buff.new(NAMESPACE, "resonatingTriangleBuff")
+local log = ItemLog.new_from_item(tri)
+log.group = ItemLog.Group.COMMON
+
+local buff = Buff.new("resonatingTriangleBuff")
 buff.show_icon = true
 buff.icon_sprite = sprite_buff
-buff:clear_callbacks()
 
-buff:onStatRecalc(function(actor, stack)
-	actor.damage = actor.damage + 5 * actor:item_stack_count(tri)
+RecalculateStats.add(function(actor)
+	local stack = actor:buff_count(buff)
+	if stack <= 0 then return end
+	actor.damage = actor.damage + 5 * actor:item_count(tri)
 end)
 
-tri:onAcquire(function(actor, stack)
-	if actor:get_data().triangletimer == nil then
-		actor:get_data().triangletimer = 0
+Callback.add(tri.on_acquired, function(actor)
+	if Instance.get_data(actor).triangletimer == nil then
+		Instance.get_data(actor).triangletimer = 0
 	end
-	if actor:get_data().triangleactivated == nil then
-		actor:get_data().triangleactivated = false
+	if Instance.get_data(actor).triangleactivated == nil then
+		Instance.get_data(actor).triangleactivated = false
 	end
 end)
 
-tri:onPostStep(function(actor, stack)
-	if actor:get_data().triangletimer > 0 then
-		actor:get_data().triangletimer = actor:get_data().triangletimer - 1
-	else
-		actor:buff_apply(buff, 30)
-		if actor:get_data().triangleactivated == false then
-			gm.sound_play_networked(gm.constants.wCrit, 1, 1, actor.x, actor.y)
-			actor:get_data().triangleactivated = true
+Callback.add(Callback.ON_STEP, function()
+	for _, actor in ipairs(tri:get_holding_actors()) do
+		if Instance.get_data(actor).triangletimer > 0 then
+			Instance.get_data(actor).triangletimer = Instance.get_data(actor).triangletimer - 1
+		else
+			actor:buff_apply(buff, 30)
+			if Instance.get_data(actor).triangleactivated == false then
+				Sound.wrap(gm.constants.wCrit):play(actor.x, actor.y, 1, 1)
+				Instance.get_data(actor).triangleactivated = true
+			end
 		end
 	end
 end)
 
-tri:onDamagedProc(function(actor, attacker, stack, hit_info)
+Callback.add(Callback.ON_DAMAGED_PROC, function(actor, hit_info)
+	if Net.client then return end
+ 
+    if actor:item_count(tri) <= 0 then return end
+	
 	if hit_info.damage > 0 then
-		actor:get_data().triangletimer = 7 * 60
-		actor:get_data().triangleactivated = false
+		Instance.get_data(actor).triangletimer = 7 * 60
+		Instance.get_data(actor).triangleactivated = false
 		actor:buff_remove(buff)
-		if actor:buff_stack_count(buff) > 0 then
-			gm.sound_play_networked(gm.constants.wCrit2, 1, 1, actor.x, actor.y)
+		if actor:buff_count(buff) > 0 then
+			Sound.wrap(gm.constants.wCrit2):play(actor.x, actor.y, 1, 1)
 		end
 		actor:buff_remove(buff)
 	end
