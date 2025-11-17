@@ -13,10 +13,10 @@ local buff = Buff.new("resonatingTriangleBuff")
 buff.show_icon = true
 buff.icon_sprite = sprite_buff
 
-RecalculateStats.add(function(actor)
+RecalculateStats.add(Callback.Priority.AFTER, function(actor, api)
 	local stack = actor:buff_count(buff)
 	if stack <= 0 then return end
-	actor.damage = actor.damage + 5 * actor:item_count(tri)
+	api.damage_add(5 * actor:item_count(tri))
 end)
 
 Callback.add(tri.on_acquired, function(actor)

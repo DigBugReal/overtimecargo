@@ -49,33 +49,36 @@ Callback.add(Callback.ON_STEP, function()
 	end
 end)
 
-Callback.add(Callback.ON_DRAW, function()
-	for _, actor in ipairs(vase:get_holding_actors()) do
-		local i = 0
-		local targetenemies = List.new()
+vase.effect_display = EffectDisplay.func(function(actor_unwrapped)
+	local actor = Instance.wrap(actor_unwrapped)
+	
+	if actor:item_count(vase) <= 0 then return end
+	
+	local i = 0
+	local targetenemies = List.new()
 		
-		if Instance.get_data(actor).pulse > 0 then
-			Instance.get_data(actor).pulse = Instance.get_data(actor).pulse - 4
-		end
+	if Instance.get_data(actor).pulse > 0 then
+		Instance.get_data(actor).pulse = Instance.get_data(actor).pulse - 4
+	end
 		
-		actor:collision_ellipse_list(actor.x - 180, actor.y - 180, actor.x + 180, actor.y + 180, gm.constants.pActor, false, true, targetenemies, false)
+	actor:collision_ellipse_list(actor.x - 180, actor.y - 180, actor.x + 180, actor.y + 180, gm.constants.pActor, false, true, targetenemies, false)
 		
-		for _, victim in ipairs(targetenemies) do
-			if victim.team ~= actor.team then
-				i = i + 1
-				if i <= actor:item_count(vase) then
-					local x2 = (actor.x + victim.x) / 2
-					local y2 = (actor.y + victim.y) / 2 - 80
-					actor:draw_set_colour(Color.from_hsv(100, 100, Instance.get_data(actor).pulse / 1.5))
-					actor:draw_line3(actor.x, actor.y, x2, y2, victim.x, victim.y, 6, 3, 2, 8)
-					
-					actor:draw_set_colour(Color.from_hsv(100, 100, Instance.get_data(actor).pulse))
-					actor:draw_line3(actor.x, actor.y, x2, y2, victim.x, victim.y, 3, 2, 1, 8)
-					
-				else
-					break
-				end
+	for _, victim in ipairs(targetenemies) do
+		if victim.team ~= actor.team then
+			i = i + 1
+			if i <= actor:item_count(vase) then
+				local x2 = (actor.x + victim.x) / 2
+				local y2 = (actor.y + victim.y) / 2 - 80
+				actor:draw_set_colour(Color.from_hsv(100, 100, Instance.get_data(actor).pulse / 1.5))
+				actor:draw_line3(actor.x, actor.y, x2, y2, victim.x, victim.y, 6, 3, 2, 8)
+				
+				actor:draw_set_colour(Color.from_hsv(100, 100, Instance.get_data(actor).pulse))
+				actor:draw_line3(actor.x, actor.y, x2, y2, victim.x, victim.y, 3, 2, 1, 8)
+				
+			else
+				break
 			end
 		end
 	end
-end)
+
+end, EffectDisplay.DrawPriority.BODY_POST)

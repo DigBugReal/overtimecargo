@@ -130,8 +130,8 @@ return {
 		},
 	windupKey = {
 		name = "Windup Key",
-		pickup = "Moving charges up a burst of bullets. High damaging hits release it.",
-		description = "<b>Moving</c> charges up <y>5</c> <c_stack>(+2.5 per stack)</c> <y>bullets</c> per second, up to <y>50</c> <c_stack>(+25 per stack)</c> <y>bullets</c>. Hits that deal <b>more than 200% damage</c> release all built up <y>bullets</c> for <y>10% damage</c> per <y>bullet</c>. <b>Bullets have a chance to activate your on-hit item effects.</c>",
+		pickup = "Using your primary skill charges up a barrage. Release at full charge to fire!",
+		description = "<b>Holding your primary skill</c> charges up <y>10</c> <c_stack>(+5 per stack)</c> <y>bullets</c> per second, up to <y>50</c> <c_stack>(+25 per stack)</c> <y>bullets</c>. <b>At full charge, release primary</c> to fire all built up <y>bullets</c> for <y>10% damage</c> each. <b>Bullets have a chance to activate your on-hit item effects.</c>",
 		destination = "Field of Memories,\nFuturelands,\nMemento VIII",
 		date = "03/12/2007",
 		story = "Ah yes, Dad's old windup key! Basically worthless now, but God, the things we did with it back then.. Jeez, I remember.. maybe when you were 4 or 5? We'd spend our time with all of his windup cars and dolls and little action figures.. maybe you could ask your grandma if she knows where any of them are when you get there?",
@@ -225,6 +225,24 @@ return {
 		destination = "Wall Street, \nUnited States of America, \nEarth",
 		date = "10/06/2020",
 		story = "Go Fuck Your Self",
+		priority = "<g>Priority</c>",
+		},
+	crackedPearl = {
+		name = "Cracked Pearl",
+		pickup = "Increase two random stats.",
+		description = "Each pickup of this item increases two of your stats by <y>10%</c> <c_stack>(+10% per stack)</c>.",
+		destination = "Wall Street, \nUnited States of America, \nEarth",
+		date = "10/06/2020",
+		story = "earl",
+		priority = "<g>Priority</c>",
+		},
+	giftCard = {
+		name = "Gift Card",
+		pickup = "Gain money at the start of a stage. Refunds some gold when making purchases.",
+		description = "Gain <y>30</c> <c_stack>(+30 per stack)</c> <y>gold</c> at the start of a stage, scales with time. Purchasing interactables <y>refunds 15%</c> <c_stack>(+10% per stack)</c> <y>of their cost in gold.</c>",
+		destination = "Knight Fort,\nGatepass Roads,\nUnion III",
+		date = "07/21/2017",
+		story = "Okay.. $30 UES card, who wants it? And yes, I'm giving it away. Remember! Share. Share. SHARE! And trolls.. DON'T get BLOCKED!", --im really sorry the original log just did this but worse i had to do it justice
 		priority = "<g>Priority</c>",
 		}
 	},

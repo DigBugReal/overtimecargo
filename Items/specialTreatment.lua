@@ -23,10 +23,9 @@ buffspeed.max_stack = 1
 buffspeed.show_icon = true
 buffspeed.icon_sprite = sprite_buff_icon
 
-RecalculateStats.add(function(actor)
-	local stack = actor:buff_count(buffspeed)
-	if stack <= 0 then return end
-	actor.pHmax = actor.pHmax + 0.7 * (actor:item_count(treatment_used) + actor:item_count(treatment))
+RecalculateStats.add(function(actor, api)
+	if actor:buff_count(buffspeed) <= 0 then return end
+	api.pHmax_add(0.7 * (actor:item_count(treatment_used) + actor:item_count(treatment)))
 end)
 
 Callback.add(buffspeed.on_step, function(actor)

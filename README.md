@@ -1,6 +1,17 @@
-An item mod loosely based on ROR1's After Hours Cargo.
+An item mod loosely based on The ROR1 After-Hours Items Mod; https://rainfusion.net/mod/e08ee85e-ccf9-4a6c-80d4-1f5e46aaa24d/
 
-Online compatibility not tested.
+Multiplayer compatibility not tested.
+
+Credits:
+Current Mod Owner - DigBugReal
+Programmer - DigBugReal
+Thumbnail Art - TangoKnight
+Artists - Narl, TangoKnight, DigBugReal, SpekterNul
+Log Writing - DigBugReal, TangoKnight
+Item Ideas and Feedback - TryAgain211, SpekterNul, AzulineSkye
+Special Thanks - ReturnOfModding Discord, 0n-X, Klehrik, Hobart, AzulineSkye, everyone else on CoolLoaders Inc.
+
+After-Hours Items by: the guy listed on the rainfusion page
 
 ---
 

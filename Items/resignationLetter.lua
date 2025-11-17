@@ -16,10 +16,9 @@ buff.max_stack = 1
 buff.show_icon = false
 -- buffspeed.icon_sprite = tem_nada
 
-RecalculateStats.add(function(actor)
-	local stack = actor:buff_count(buff)
-	if stack <= 0 then return end
-	actor.damage = actor.damage * (1.15 + (0.15 * actor:item_count(let)))
+RecalculateStats.add(Callback.Priority.AFTER, function(actor, api)
+	if actor:buff_count(buff) <= 0 then return end
+	api.damage_mult(1.15 + (0.15 * actor:item_count(let)))
 end)
 
 Callback.add(Callback.ON_KILL_PROC, function(target, attacker)

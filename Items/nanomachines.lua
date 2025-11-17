@@ -12,10 +12,9 @@ local buffArmor = Buff.new("nanoArmorBuff")
 buffArmor.max_stack = 1
 buffArmor.show_icon = false
 
-RecalculateStats.add(function(actor)
-	local stack = actor:buff_count(buffArmor)
-	if stack <= 0 then return end
-	actor.armor = actor.armor + ((actor.maxshield_base * actor:item_count(son)) * 0.5)
+RecalculateStats.add(function(actor, api)
+	if actor:buff_count(buffArmor) <= 0 then return end
+	api.armor_add((actor.maxshield_base * actor:item_count(son)) * 0.5)
 end)
 
 Callback.add(son.on_acquired, function(actor)

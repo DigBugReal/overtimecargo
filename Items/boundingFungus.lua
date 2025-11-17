@@ -3,7 +3,7 @@ local sprite_boing_long = Sprite.new("boundingFungusBoingLong", path.combine(PAT
 
 local sound_boing = Sound.new("boundingFungusBoingSFX", path.combine(PATH, "Sounds/boing.ogg"))
 
-local boungus = Item.new("boundingFungus"
+local boungus = Item.new("boundingFungus")
 boungus:set_sprite(sprite_boungus)
 boungus:set_tier(ItemTier.COMMON)
 boungus.loot_tags = Item.LootTag.CATEGORY_UTILITY

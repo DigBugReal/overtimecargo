@@ -1,10 +1,9 @@
--- local sprite_jar = Resources.sprite_load(NAMESPACE, "PreservesJar", path.combine(PATH, "Sprites/item/preservesJar.png"), 1, 17, 17)
+-- local sprite_jar = Sprite.new("PreservesJar", path.combine(PATH, "Sprites/item/preservesJar.png"), 1, 17, 17)
 
--- local jar = Item.new(NAMESPACE, "preservesJar")
+-- local jar = Item.new("preservesJar")
 -- jar:set_sprite(sprite_jar)
--- jar:set_tier(Item.TIER.rare)
--- jar:set_loot_tags(Item.LOOT_TAG.category_utility)
--- jar:clear_callbacks()
+-- jar:set_tier(ItemTier.RARE)
+-- jar.loot_tags = Item.LootTag.CATEGORY_UTILITY
 
 -- local bossPartyActive
 -- -- jar:onAcquire(function(actor)
@@ -13,7 +12,7 @@
 	-- -- end
 -- -- end)
 
--- gm.pre_script_hook(gm.constants["update_boss_party_active@gml_Object_oDirectorControl_Create_0"], function(self, other, result, args)
+-- Hook.add_pre(gm.constants["update_boss_party_active@gml_Object_oDirectorControl_Create_0"], function(self, other, result, args)
 	-- bossPartyActive = true
 -- end)
 
