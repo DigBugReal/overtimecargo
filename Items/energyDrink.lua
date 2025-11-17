@@ -20,7 +20,7 @@ RecalculateStats.add(function(actor, api)
 	
 	local stacks = actor:item_count(nrg)
 	api.pHmax_add(0.22 + (0.48 * stacks))
-	actor.attack_speed = actor.attack_speed + (0.08 + (0.17 * stacks))
+	api.attack_speed_add(0.08 + (0.17 * stacks))
 
 end)
 
