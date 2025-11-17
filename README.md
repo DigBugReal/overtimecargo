@@ -3,12 +3,19 @@ An item mod loosely based on The ROR1 After-Hours Items Mod; https://rainfusion.
 Multiplayer compatibility not tested.
 
 Credits:
+
 Current Mod Owner - DigBugReal
+
 Programmer - DigBugReal
+
 Thumbnail Art - TangoKnight
+
 Artists - Narl, TangoKnight, DigBugReal, SpekterNul
+
 Log Writing - DigBugReal, TangoKnight
+
 Item Ideas and Feedback - TryAgain211, SpekterNul, AzulineSkye
+
 Special Thanks - ReturnOfModding Discord, 0n-X, Klehrik, Hobart, AzulineSkye, everyone else on CoolLoaders Inc.
 
 After-Hours Items by: the guy listed on the rainfusion page
