@@ -1,4 +1,4 @@
-local sprite_vase = Sprite.new("siphoningVase", path.combine(PATH, "Sprites/item/siphoningVase.png"), 1, 17, 17)
+local sprite_vase = Sprite.new("siphoningVase", path.combine(PATH, "Sprites/item/siphoningVase.png"), 1, 16, 17)
 
 local vase = Item.new("siphoningVase")
 vase:set_sprite(sprite_vase)
