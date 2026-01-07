@@ -76,12 +76,13 @@ local rubble = Particle.find("Rubble1")
 Callback.add(debuffspiking.on_apply, function(actor)
 	Instance.get_data(actor).spiking_timer = 0
 	actor.pVspeed = -14
+	actor.intangible = 1
+	Sound.wrap(gm.constants.wBoss1Shoot1):play(actor.x, actor.y, 0.8, 1.1 + math.random() * 0.2)
+	Sound.wrap(gm.constants.wFwoosh):play(actor.x, actor.y, 1.5, 0.8 + math.random() * 0.2)
 end)
 
 Callback.add(debuffspiking.on_step, function(actor)
 	if Net.client then return end
-	
-	actor.immune = 1
 	
 	local data = Instance.get_data(actor)
 	data.spiking_timer = data.spiking_timer + 1
@@ -93,6 +94,7 @@ Callback.add(debuffspiking.on_step, function(actor)
 	if not GM.actor_is_boss(actor) and not GM.actor_is_classic(actor) and data.spiking_timer < 24 then
 		actor.y = actor.y - 11
 	end
+	
 
 	if data.spiking_timer > 25 then
 		if not GM.actor_is_boss(actor) and GM.actor_is_classic(actor) then
@@ -150,28 +152,32 @@ Callback.add(debuffspiking.on_remove, function(actor)
 	actor.hp = -1000
 end)
 
-local guarded = false
+--hooks are literally not needed for this? this can just be handled with the buff? lol?
 
-Hook.add_pre(gm.constants.actor_phy_on_landed, function(self, other, result, args)
-    local real_self = Instance.wrap(self)
-    if not Util.bool(self.intangible) then
-        self.intangible = 1
-        guarded = true
-    end
-end)
+--local guarded = false
 
-Hook.add_post(gm.constants.actor_phy_on_landed, function(self, other, result, args)
-    if guarded then
-        self.intangible = 0
-        guarded = false
-    end
-end)
+-- Hook.add_pre(gm.constants.actor_phy_on_landed, function(self, other, result, args)
+    -- local real_self = Instance.wrap(self)
+	-- if self:buff_count(debuffspiking) <= 0 then return end
+    -- if not Util.bool(self.intangible) then
+        -- self.intangible = 1
+        -- guarded = true
+    -- end
+-- end)
+
+-- Hook.add_post(gm.constants.actor_phy_on_landed, function(self, other, result, args)
+    -- if guarded then
+        -- guarded = false
+    -- end
+-- end)
 
 Callback.add(Callback.ON_DAMAGED_PROC, function(actor, hit_info)
 	local inflictor = (Instance.wrap(hit_info.inflictor))
+	if inflictor:item_count(fin) <= 0 then return end
+	
 	if GM.actor_is_classic(actor) and not GM.actor_is_boss(actor) then
 		if actor.object_index ~= gm.constants.oLizardFG and actor.object_index ~= gm.constants.oLizardF then
-			if Instance.exists(inflictor) and inflictor:item_count(fin) > 0 then
+			if Instance.exists(inflictor) then
 				if actor.elite_type ~= -1 and actor.hp <= actor.maxhp * ((0.13 * inflictor:item_count(fin)) / (1 + 0.13 * inflictor:item_count(fin))) then
 					if actor.hp <= 0 then
 						actor.hp = 1

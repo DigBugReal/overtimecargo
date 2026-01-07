@@ -46,6 +46,7 @@ end)
 --called when a drone is spawned
 --post script bc that's after it determines its master
 Hook.add_post(gm.constants.init_drone, function(self, other)
+	if self.object_index == gm.constants.oDrone2B then return end --so it's not wasted on the armsrace drone
 	--"Master" is the drone's variable for its owner/parent/the player actor
 	--needs to be wrapped to be used in hook
 	local master = Instance.wrap(self.master)

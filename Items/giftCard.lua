@@ -37,9 +37,3 @@ Callback.add(Callback.ON_STAGE_START, function()
 	end
 
 end)
-
--- Callback.add(Callback.ON_STAGE_START, function()
-    -- for _, player in ipairs(Instance.find_all(gm.constants.oP)) do
-        -- card:create(player.x + 200, player.y)
-    -- end
--- end)

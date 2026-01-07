@@ -1,4 +1,4 @@
-local sprite_moonrock = Sprite.new("moonStone", path.combine(PATH, "Sprites/item/moonrockWhetstone.png"), 1, 13, 5)
+local sprite_moonrock = Sprite.new("moonStone", path.combine(PATH, "Sprites/item/moonrockWhetstone.png"), 1, 17, 10)
 local sprite_buff = Sprite.new("whetstoneBuff", path.combine(PATH, "Sprites/buffs/moonrockBuff1.png"), 1, 8, 29)
 local sprite_buff2 = Sprite.new("whetstoneBuff2", path.combine(PATH, "Sprites/buffs/moonrockBuff2.png"), 1, 6, 27)
 
@@ -14,11 +14,11 @@ local buff = Buff.new("moonrockBuff")
 buff.show_icon = false
 buff.icon_sprite = sprite_buff
 
-RecalculateStats.add(function(actor)
+RecalculateStats.add(function(actor, api)
 	if actor:item_count(roc) <= 0 then return end
 	local stacks = actor:item_count(roc)
 	if actor:buff_count(buff) >= 1 then
-		actor.critical_chance = actor.critical_chance + (9 + (3 * stacks))
+		api.critical_chance_add(9 + (3 * stacks))
 	end
 end)
 

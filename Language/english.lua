@@ -12,7 +12,7 @@ return {
 		description = "Increases the following stats:\n\n<g>Max health</c> by <g>15% <c_stack>(+15% per stack).</c>\n<g>Health regeneration</c> by <g>3</c> <c_stack>(+3 per stack)</c> <g>HP/second.</c>\n<g>Armor</c> by <g>14 <c_stack>(+14 per stack).</c>\n<y>Damage</c> by <y>15%</c> <c_stack>(+15% per stack).</c>\n<y>Attack speed</c> by <y>25% <c_stack>(+25% per stack).</c>\n<y>Critical strike chance</c> by <y>15% <c_stack>(+15% per stack).</c>\n<b>Movement speed</c> by <b>28% <c_stack>(+28% per stack).</c>\n<b>Jump height</c> by <b>25% <c_stack>(+25% per stack).</c>",
 		destination = "Lima,\nPeru,\nEarth",
 		date = "11/16/2056",
-		story = "..Where's my drink?\n\nMy DRINK? My DIET DR. CLEUS??? Don't TELL ME you forgot to ship my DRINK.\n\nHow am I supposed to eat this PIZZA without MY DRINK??? Haven't you once thought of the customer????\n\nYou call yourself a DELIVERY BOY??????? WELL I AIN'T BUYIN'.",
+		story = "..Where's my drink?\n\nMy DRINK? My DIET DR. CLEUS??? Don't TELL ME you forgot to ship my DRINK.\n\nHow am I supposed to eat this PIZZA without MY DRINK??? Haven't you once thought of the customer????\n\nYou call yourselves a DELIVERY SERVICE??????? WELL I AIN'T BUYIN'.",
 		priority = "<r>Standard</c>",
 		},
 
@@ -32,17 +32,17 @@ return {
 		description = "Elite enemies below <r>13%</c> <c_stack>(+13% per stack)</c> <r>health</c> are <b>knocked upwards and slammed back into the ground</c>, <y>stunning</c> and dealing <y>300%</c> <c_stack>(+300% per stack)</c> <y>damage</c> to nearby enemies.",
 		destination = "Caloris Basin, \nCerberus Blast Furnace Plant,\nMercury",
 		date = "10/10/2056",
-		story = "Don’t leave a single trace of this. \n\nTechnology’s gone way too damn far. Brainless suits are just throwing darts at the damn wall, going, 'Hey, we can do it with other fossils, let’s biologically reconstruct THIS one next!' \nThese bastards were not only invasive- one of the first interplanetary invasives nonetheless, but their hunting tactics were.. Disturbingly, insanely brutal, to say the least. HUMPBACKS would be flung 20 feet into the air and beached just by a couple of them. By all means, ensure every last bit of this spine is vaporized as thoroughly possible. \n\nThis would devastate the trout population otherwise.",
+		story = "Don't leave a single trace of this. \n\nTechnology's gone way too damn far. Brainless suits are just throwing darts at the damn wall, going, 'Hey, we can do it with other fossils, let's biologically reconstruct THIS one next!' \nThese bastards were not only invasive- one of the first interplanetary invasives nonetheless, but their hunting tactics were.. Disturbingly, insanely brutal, to say the least. HUMPBACKS would be flung 20 feet into the air and beached just by a couple of them. By all means, ensure every last bit of this spine is vaporized as thoroughly possible. \n\nThis would devastate the trout population otherwise.",
 		priority = "<g>Priority/Biological</c>",
 		},
 
 	siphoningVase = {
 		name = "Siphoning Vase",
 		pickup = "Siphon health from close enemies.",
-		description = "<y>Tether</c> to the nearest <y>1</c> <c_stack>(+1 per stack)</c> enemies, dealing <y>100% damage</c> and <g>healing for 2.5% of your maximum health</c>.",
+		description = "<y>Tether</c> to the nearest <y>1</c> <c_stack>(+1 per stack)</c> enemies, dealing <y>100% damage</c> and <g>healing for 2.5% of your maximum health</c> <b>per second.</c>",
 		destination = "Public Research Lab,\nSweden,\nEarth",
 		date = "10/11/2056",
-		story = "Hey man, everything good on your end? \n\nWe’re doing fine now- I myself woke up pretty good today. Cheryl, though.. she’s still recovering. She’s been washed, doesn’t smell so bad anymore, and I’m nursing her as I write this to you. We were just lucky enough to have some spare elixirs on hand, so it should be steady for her.. just doesn’t seem to be kicking in yet, for whatever reason. Again, my condolences, we’re all praying for her- but in other news.. I found a crazy antique while the guys weren’t looking! Just looks like a crusty-ass vase at first, but there’s.. something weird inside, kinda like tar. But I swear when it’s closed I can feel something moving inside, almost like it’s alive. I also had to leave it in my quarters for now because as neat as it is, it smells AWFUL. We could poke and prod at it together whenever I get back, just like old times, maybe? \n\nHope you’ll consider! See you soon, buddy.",
+		story = "Hey man, everything good on your end? \n\nWe're doing fine now- I myself woke up pretty good today. Cheryl, though.. she's still recovering. She's been washed, doesn't smell so bad anymore, and I'm nursing her as I write this to you. We were just lucky enough to have some spare elixirs on hand, so it should be steady for her.. just doesn't seem to be kicking in yet, for whatever reason. Again, my condolences, we're all praying for her- but in other news.. I found a crazy antique while the guys weren't looking! Just looks like a crusty-ass vase at first, but there's.. something weird inside, kinda like tar. But I swear when it's closed I can feel something moving inside, almost like it's alive. I also had to leave it in my quarters for now because as neat as it is, it smells AWFUL. We could poke and prod at it together whenever I get back, just like old times, maybe? \n\nHope you'll consider! See you soon, buddy.",
 		priority = "<r>High Priority/Fragile/Biological</c>",
 		},
 
@@ -80,7 +80,7 @@ return {
 		description = "Enemies drop <y>10¢</c> <c_stack>(+10¢ per stack)</c> <y>gold</c> on hit. Scales with time and damage dealt. A lootbug with up to <y>10 temporary items</c> spawns upon activating the Teleporter, based on <y>current gold</c>.",
 		destination = "Chicago Grand Terminal,\nUnited States,\nEarth",
 		date = "09/10/2056",
-		story = "We’re happy to report that after a thorough review of your performance on the expedition, your skillset is quite unlike anything we’ve seen from our own staff thus far! Astounding work, and we once again thank you heartily for taking part in our Collaborative Program with UES. As a consolation prize- and as a means to end the obnoxiously eager push from our employees whom you worked with- you’ve also been granted a pure sample of ground-up Hoxxes Gold.. Assumedly pure, anyways. Consider it a keepsake! Just be sure no grubs of any kind were snuck onboard before departure. From all of us at Mission Control, Godspeed! And from your fellow miners, \n'Rock and Stone forever!'",
+		story = "We're happy to report that after a thorough review of your performance on the expedition, your skillset is quite unlike anything we've seen from our own staff thus far! Astounding work, and we once again thank you heartily for taking part in our Collaborative Program with UES. As a consolation prize- and as a means to end the obnoxiously eager push from our employees whom you worked with- you've also been granted a pure sample of ground-up Hoxxes Gold.. Assumedly pure, anyways. Consider it a keepsake! Just be sure no grubs of any kind were snuck onboard before departure. From all of us at Mission Control, Godspeed! And from your fellow miners, \n'Rock and Stone forever!'",
 		priority = "<g>Priority</c>",
 		},
 	specialTreatment = {
@@ -131,14 +131,14 @@ return {
 	windupKey = {
 		name = "Windup Key",
 		pickup = "Using your primary skill charges up a barrage. Release at full charge to fire!",
-		description = "<b>Holding your primary skill</c> charges up <y>10</c> <c_stack>(+5 per stack)</c> <y>bullets</c> per second, up to <y>50</c> <c_stack>(+25 per stack)</c> <y>bullets</c>. <b>At full charge, release primary</c> to fire all built up <y>bullets</c> for <y>10% damage</c> each. <b>Bullets have a chance to activate your on-hit item effects.</c>",
+		description = "<b>Holding your primary skill</c> charges up <y>5</c> <c_stack>(+3 per stack)</c> <y>bullets</c> per second, up to <y>25</c> <c_stack>(+15 per stack)</c> <y>bullets</c>. <b>At full charge, release primary</c> to fire all built up <y>bullets</c> for <y>20% damage</c> each. <b>Bullets have a chance to activate your on-hit item effects.</c>",
 		destination = "Field of Memories,\nFuturelands,\nMemento VIII",
 		date = "03/12/2007",
 		story = "Ah yes, Dad's old windup key! Basically worthless now, but God, the things we did with it back then.. Jeez, I remember.. maybe when you were 4 or 5? We'd spend our time with all of his windup cars and dolls and little action figures.. maybe you could ask your grandma if she knows where any of them are when you get there?",
 		priority = "<g>Priority</c>",
 		},
 	resonatingTriangle = {
-		name = "Resonating Triangle",
+		name = "Resonant Triangle",
 		pickup = "Deal more damage outside of danger.",
 		description = "After not being hit for 7 seconds, increase your <y>base damage</c> by <y>5</c> <c_stack>(+5 per stack)</c>.",
 		destination = "Werneth School,\nGreater Manchester,\nEarth",
@@ -158,7 +158,7 @@ return {
 	energyDrink = {
 		name = "Energy Drink",
 		pickup = "Gain a temporary speed and attack speed boost at the start of each stage.",
-		description = "Upon entering a stage, <y>increase both movement and attack speed by 25%</c> <c_stack>(+17% per stack)</c> for <b>30</c> <c_stack>(+5 per stack)</c> <b>seconds.</c>",
+		description = "Upon entering a stage, <y>increase both movement and attack speed by 25%</c> <c_stack>(+20% per stack)</c> for <b>40</c> <c_stack>(+15 per stack)</c> <b>seconds.</c>",
 		destination = "Majora Minora, \nViolet Heights, \nVenus",
 		date = "02/24/2056",
 		story = "Alright man, here's all I can lend in terms of 'refreshments' for hoco. If anyone asks; I DID NOT send you this. Indulge at your own risk.. Rad Drinks wishes they made these changes to the formula though- would make them mad bank, regardless. Consider it an extra lil' gift for my regular. Cheers.",
@@ -176,7 +176,7 @@ return {
 	holyPauldron = {
 		name = "Holy Pauldron",
 		pickup = "Gain barrier upon killing an elite. Barrier temporarily stops decaying.",
-		description = "When killing an elite, gain <g>10%</c> <c_stack>(+15% per stack)</c> <g>of your maximum health as barrier</c>. <g>Barrier</c> <y>stops decaying for 5</c> <c_stack>(+3 per stack)</c> <y>seconds.</c>",
+		description = "When killing an elite, gain <g>15%</c> <c_stack>(+10% per stack)</c> <g>of your maximum health as barrier</c>. <g>Barrier</c> <y>stops decaying for 5</c> <c_stack>(+3 per stack)</c> <y>seconds.</c>",
 		destination = "gods angles",
 		date = "9/23/2025",
 		story = "Jesus answered; 'I am The Way, The Truth, and The Light. No one comes through The Father except through me.'\n\n\n\n\n\n\n\n\n<r>$6 SRIMP SPECIL</c>",
@@ -201,7 +201,7 @@ return {
 		priority = "",
 		},
 	cannedFood = {
-		name = "Canned Food",
+		name = "Expired Rations",
 		pickup = "Activating an interactable drops chunks of poisoning meat.",
 		description = "Activating an interactable <y>drops 3</c> <c_stack>(+2 per stack)</c> <y>chunks of rotten meat that posion enemies for a total of 300%</c> <c_stack>(+150% per stack)</c> <y>damage.</c>",
 		destination = "Camp Bleeding Heron, \nIsla Santa Cruz, \nEarth",
@@ -229,8 +229,8 @@ return {
 		},
 	crackedPearl = {
 		name = "Cracked Pearl",
-		pickup = "Increase two random stats.",
-		description = "Each pickup of this item increases two of your stats by <y>10%</c> <c_stack>(+10% per stack)</c>.",
+		pickup = "Increases two random stats.",
+		description = "Each pickup of this item increases two of your stats by <y>20%</c> <c_stack>(+20% per stack)</c>.",
 		destination = "Wall Street, \nUnited States of America, \nEarth",
 		date = "10/06/2020",
 		story = "earl",
@@ -243,7 +243,16 @@ return {
 		destination = "Knight Fort,\nGatepass Roads,\nUnion III",
 		date = "07/21/2017",
 		story = "Okay.. $30 UES card, who wants it? And yes, I'm giving it away. Remember! Share. Share. SHARE! And trolls.. DON'T get BLOCKED!", --im really sorry the original log just did this but worse i had to do it justice
-		priority = "<g>Priority</c>",
+		priority = "<w>Standard</c>",
+		},
+	solarSynthesizer = {
+		name = "Solar Synthesizer",
+		pickup = "Barrier decays slower. Gain barrier when using an equipment.",
+		description = "Reduces barrier decay rate by <y>5%</c> <c_stack>(+5% per stack)</c>. <g>Grants 15%</c> <c_stack>(+15% per stack)</c> <g>of your maximum health as barrier when using an equipment.</c>",
+		destination = "Strongcold,\nFrozen Core,\nPluto",
+		date = "06/11/2056",
+		story = "Hey Jimmy-boy, hate to break it but these things malfunctioned just as I was about to send 'em off. You're gonna have to do a flyby near your sun to get 'em recalibrated. Godspeed to you and the village.",
+		priority = "<w>Standard</c>",
 		}
 	},
 }

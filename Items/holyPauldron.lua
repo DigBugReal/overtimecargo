@@ -18,7 +18,7 @@ Callback.add(Callback.ON_KILL_PROC, function(target, attacker)
 	local stacks = attacker:item_count(holy)
 	--checks if the enemy is an elite of any type
 	if target.elite_type ~= -1 then
-		attacker:heal_barrier(attacker.maxbarrier * ((0.15 * stacks) - 0.05))
+		attacker:heal_barrier(attacker.maxbarrier * (0.05 + (0.1 * stacks)))
 		attacker:buff_apply(holyBuff, 60 * (2 + (3 * stacks)))
 	end
 	

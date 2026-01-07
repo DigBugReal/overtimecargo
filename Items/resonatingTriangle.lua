@@ -14,8 +14,7 @@ buff.show_icon = true
 buff.icon_sprite = sprite_buff
 
 RecalculateStats.add(Callback.Priority.AFTER, function(actor, api)
-	local stack = actor:buff_count(buff)
-	if stack <= 0 then return end
+	if actor:buff_count(buff) <= 0 then return end
 	api.damage_add(5 * actor:item_count(tri))
 end)
 

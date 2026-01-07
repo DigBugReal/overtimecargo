@@ -19,8 +19,8 @@ RecalculateStats.add(function(actor, api)
 	if actor:buff_count(buff) <= 0 then return end
 	
 	local stacks = actor:item_count(nrg)
-	api.pHmax_add(0.22 + (0.48 * stacks))
-	api.attack_speed_add(0.08 + (0.17 * stacks))
+	api.pHmax_add(0.14 + (0.56 * stacks))
+	api.attack_speed_add(0.05 + (0.2 * stacks))
 
 end)
 
@@ -29,7 +29,7 @@ Callback.add(Callback.ON_STAGE_START, function()
 		--wait a bit
 		local function wait()
 			if Instance.exists(actor) then
-				actor:buff_apply(buff, (60 * (25 + (5 * actor:item_count(nrg)))))
+				actor:buff_apply(buff, (60 * (25 + (15 * actor:item_count(nrg)))))
 				sound_drink:play(actor.x, actor.y, 1, 0.9 + math.random() * 0.2)
 			end
 		end

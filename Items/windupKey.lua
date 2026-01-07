@@ -28,7 +28,7 @@ key.effect_display = EffectDisplay.func(function(actor_unwrapped)
 	local yOffset = gm.sprite_get_yoffset(actor.sprite_idle)
 	local xOffset = gm.sprite_get_xoffset(actor.sprite_idle)
 	
-	if data.windupkeybullets < 25 + 25 * actor:item_count(key) then
+	if data.windupkeybullets < 10 + 15 * actor:item_count(key) then
 		if data.windupkeyshooting == true then
 			GM.draw_sprite_ext(sprite_vfx, e, actor.x - ((15 + xOffset) * actor.image_xscale), actor.y + (yOffset * 0.2), actor.image_xscale, 1, 0, Color.WHITE, 1)
 		elseif Util.bool(actor.z_skill) then
@@ -73,10 +73,10 @@ for _, actor in ipairs(key:get_holding_actors()) do
 			data.windupkeytimer = 0
 		end
 		
-		if data.windupkeytimer >= 3 and data.windupkeybullets < 25 + 25 * stack then
-			data.windupkeybullets = data.windupkeybullets + 0.25 + 0.25 * stack
+		if data.windupkeytimer >= 3 and data.windupkeybullets < 10 + 15 * stack then
+			data.windupkeybullets = data.windupkeybullets + 0.1 + 0.15 * stack
 			data.windupkeytimer = 0
-			if data.windupkeybullets >= 25 + 25 * stack then
+			if data.windupkeybullets >= 10 + 15 * stack then
 				Sound.wrap(gm.constants.wSniperReload):play(actor.x, actor.y, 1, 1)
 				local flash = GM.instance_create(actor.x, actor.y, gm.constants.oEfFlash)
 				flash.parent = actor
@@ -86,7 +86,7 @@ for _, actor in ipairs(key:get_holding_actors()) do
 		end
 	else
 		if data.windupkeybullets > 0 then
-			if math.random() <= 0.7 then
+			if math.random() <= 0.44 then
 				data.windupkeybullets = data.windupkeybullets - 1
 				Sound.wrap(gm.constants.wSniperShoot3):play(actor.x, actor.y, 0.3, 0.8 + math.random() * 0.4)
 				Sound.wrap(gm.constants.wCasing):play(actor.x, actor.y, 0.2, 1.2 + math.random() * 0.4)
@@ -95,7 +95,7 @@ for _, actor in ipairs(key:get_holding_actors()) do
 				else
 					bolts:set_direction(0, 90, 0, 0)
 				end
-				local dmg = actor.damage * 0.01
+				local dmg = actor.damage * 0.02
 				bolts:create(actor.x, actor.y, 1, Particle.System.BELOW)
 				local attack = actor:fire_bullet(actor.x, actor.y, 1000, actor:skill_util_facing_direction() + math.random(-2, 2), dmg, nil, gm.constants.sSparks3, Tracer.SNIPER1)
 				attack.attack_info.damage_color = Color.YELLOW
@@ -110,9 +110,3 @@ for _, actor in ipairs(key:get_holding_actors()) do
 	end
 end
 end)
-
--- Callback.add(Callback.ON_STAGE_START, function()
-    -- for _, player in ipairs(Instance.find_all(gm.constants.oP)) do
-        -- key:create(player.x, player.y)
-    -- end
--- end)

@@ -2,6 +2,8 @@ local sprite_treatment = Sprite.new("specialTreatment", path.combine(PATH, "Spri
 local sprite_treatment_used = Sprite.new("specialTreatmentConsumed", path.combine(PATH, "Sprites/item/specialTreatmentConsumed.png"), 1, 16, 16)
 local sprite_buff_icon = Sprite.new("specialTreatmentBuff", path.combine(PATH, "Sprites/buffs/specialTreatmentBuff.png"), 1, 18, 14)
 
+local sound_pop = Sound.new("specialTreatmentPop", path.combine(PATH, "Sounds/specialTreatmentOpen.ogg"))
+
 local treatment = Item.new("specialTreatment")
 treatment:set_sprite(sprite_treatment)
 treatment:set_tier(ItemTier.COMMON)
@@ -15,7 +17,7 @@ treatment_used:set_sprite(sprite_treatment_used)
 treatment_used:toggle_loot(false)
 treatment_used.loot_tags = Item.LootTag.ITEM_BLACKLIST_VENDOR, Item.LootTag.ITEM_BLACKLIST_INFUSER
 
-local parspeed = Particle.find("Fire2")
+local parspeed = Particle.find("Fire2", "ror")
 parspeed:set_alpha2(0.75, 0)
 
 local buffspeed = Buff.new("specialTreatmentSpeed")
@@ -55,8 +57,11 @@ Callback.add(Callback.ON_DAMAGED_PROC, function(actor, hit_info)
 		flash.rate = 0.1
 		flash.image_alpha = 0.5
 		flash.image_blend = Color.YELLOW
-		Sound.wrap(gm.constants.wBarrierActivate):play(actor.x, actor.y, 1, 0.8 + math.random() * 0.2)
-		Sound.wrap(gm.constants.wChildDeath):play(actor.x, actor.y, 1, 1.6 + math.random() * 0.4)
+		if Util.bool(actor.barrier) then
+			Sound.wrap(gm.constants.wBarrierActivate):play(actor.x, actor.y, 0.7, 0.8 + math.random() * 0.2)
+		end
+		sound_pop:play(actor.x, actor.y, 2.5, 1.05)
+		Sound.wrap(gm.constants.wBossFinalDeathWarp):play(actor.x, actor.y, 0.7, 1.6 + math.random() * 0.4)
 		--get rid of the temp stacks if its consumed while temp
 		local normal = actor:item_count(treatment, Item.StackKind.NORMAL)
         local temp = actor:item_count(treatment, Item.StackKind.TEMPORARY_BLUE)

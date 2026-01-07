@@ -1,7 +1,5 @@
 local sprite_let = Sprite.new("resigLetter", path.combine(PATH, "Sprites/item/resignationLetter.png"), 1, 16, 16)
-
---new Fine Print/Sketchy Contract rework: Resignation Letter
---Killing an elite grants a buff that increases base damage by 30% +(15% per stack) for 10 (+3 per stack) seconds.
+local sprite_buff = Sprite.new("letterBuff", path.combine(PATH, "Sprites/buffs/letterBuff.png"), 1, 18, 16)
 
 local let = Item.new("resignationLetter")
 let:set_sprite(sprite_let)
@@ -13,8 +11,8 @@ log.group = ItemLog.Group.UNCOMMON
 
 local buff = Buff.new("letDamage")
 buff.max_stack = 1
-buff.show_icon = false
--- buffspeed.icon_sprite = tem_nada
+buff.show_icon = true
+buff.icon_sprite = sprite_buff
 
 RecalculateStats.add(Callback.Priority.AFTER, function(actor, api)
 	if actor:buff_count(buff) <= 0 then return end
