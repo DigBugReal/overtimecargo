@@ -10,7 +10,7 @@ PATH = _ENV["!plugins_mod_folder_path"].."/"
 
 local init = function()
 	local folders = {
-		"Items",
+		"Lua",
 		"Sprites",
 		"Language",
 	}
