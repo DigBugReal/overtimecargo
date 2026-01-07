@@ -120,9 +120,3 @@ Callback.add(fudBuff.on_step, function(actor, stack)
 	end
 
 end)
-
--- Callback.add(Callback.ON_STAGE_START, function()
-    -- for _, player in ipairs(Instance.find_all(gm.constants.oP)) do
-        -- fud:create(player.x, player.y)
-    -- end
--- end)

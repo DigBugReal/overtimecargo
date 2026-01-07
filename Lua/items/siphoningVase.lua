@@ -32,12 +32,18 @@ Callback.add(Callback.ON_STEP, function()
 					end
 					if Instance.get_data(victim).siphontick <= 0 then
 						local direct = actor:fire_direct(victim, 1, 0, victim.x, victim.y, nil, false)
-						direct.attack_info.damage_color = Color.YELLOW
+						direct.attack_info.damage_color = Color.from_hex(0xc9b636)
 						actor:heal(actor.maxhp * 0.025)
 						victim:buff_apply(Buff.find("oil", "ror"), 60)
 						Sound.wrap(gm.constants.wUse):play(victim.x, victim.y, 1, 0.8 + math.random() * 0.2)
 						Instance.get_data(victim).siphontick = 35
 						Instance.get_data(actor).pulse = 100
+						
+						local flash = GM.instance_create(actor.x, actor.y, gm.constants.oEfFlash)
+						flash.parent = actor
+						flash.rate = 0.04
+						flash.image_alpha = 0.7
+						flash.image_blend = Color.from_hsv(100, 100, 100)
 					end
 				else
 					break
@@ -68,12 +74,14 @@ vase.effect_display = EffectDisplay.func(function(actor_unwrapped)
 			i = i + 1
 			if i <= actor:item_count(vase) then
 				local x2 = (actor.x + victim.x) / 2
-				local y2 = (actor.y + victim.y) / 2 - 80
+				local y2 = (actor.y + victim.y) / 2 - 40
+				local pulse = Instance.get_data(actor).pulse * 0.045
+				
 				actor:draw_set_colour(Color.from_hsv(100, 100, Instance.get_data(actor).pulse / 1.5))
-				actor:draw_line3(actor.x, actor.y, x2, y2, victim.x, victim.y, 6, 3, 2, 8)
+				actor:draw_line3(actor.x, actor.y, x2, y2, victim.x, victim.y, 6 + pulse, 2 + pulse, 1, 9)
 				
 				actor:draw_set_colour(Color.from_hsv(100, 100, Instance.get_data(actor).pulse))
-				actor:draw_line3(actor.x, actor.y, x2, y2, victim.x, victim.y, 3, 2, 1, 8)
+				actor:draw_line3(actor.x, actor.y, x2, y2, victim.x, victim.y, 3 + pulse, 1.5 + pulse, 0.75, 9)
 				
 			else
 				break
@@ -81,4 +89,4 @@ vase.effect_display = EffectDisplay.func(function(actor_unwrapped)
 		end
 	end
 
-end, EffectDisplay.DrawPriority.BODY_POST)
+end, EffectDisplay.DrawPriority.BODY_PRE)

@@ -98,7 +98,7 @@ for _, actor in ipairs(key:get_holding_actors()) do
 				local dmg = actor.damage * 0.02
 				bolts:create(actor.x, actor.y, 1, Particle.System.BELOW)
 				local attack = actor:fire_bullet(actor.x, actor.y, 1000, actor:skill_util_facing_direction() + math.random(-2, 2), dmg, nil, gm.constants.sSparks3, Tracer.SNIPER1)
-				attack.attack_info.damage_color = Color.YELLOW
+				attack.attack_info.damage_color = Color.from_hex(0xc9b636)
 				actor:screen_shake(1)
 			end
 		else
