@@ -167,7 +167,7 @@ return {
 	nanomachines = {
 		name = "Nanomachines",
 		pickup = "They harden in response to physical trauma.",
-		description = "Gain <g>30</c> <c_stack>(+30 per stack)</c> <g>temporary shield</c> when falling under <r>50% health.</c> Recharges every 15 seconds. <g>Each point of active shield grants 0.5</c> <c_stack>(+0.5 per stack)</c> <g>armor</c>.",
+		description = "Gain <g>60</c> <c_stack>(+60 per stack)</c> <g>non-regenerating shield</c> when falling under <r>50% health.</c> Recharges every 15 seconds. <g>Each point of active shield grants 0.5</c> <c_stack>(+0.5 per stack)</c> <g>armor</c>.",
 		destination = "im fuckin INVINCIBLE wait wrong reference im fake",
 		date = "4",
 		story = "Standing Here with Real Ice",
@@ -248,7 +248,7 @@ return {
 	solarSynthesizer = {
 		name = "Solar Synthesizer",
 		pickup = "Barrier decays slower. Gain barrier when using an equipment.",
-		description = "Reduces barrier decay rate by <y>5%</c> <c_stack>(+5% per stack)</c>. <g>Grants 15%</c> <c_stack>(+15% per stack)</c> <g>of your maximum health as barrier when using an equipment.</c>",
+		description = "Reduces barrier decay rate by <y>13%</c> <c_stack>(+13% per stack)</c>. <g>Grants 20%</c> <c_stack>(+20% per stack)</c> <g>of your maximum health as barrier when using an equipment.</c>",
 		destination = "Strongcold,\nFrozen Core,\nPluto",
 		date = "06/11/2056",
 		story = "Hey Jimmy-boy, hate to break it but these things malfunctioned just as I was about to send 'em off. You're gonna have to do a flyby near your sun to get 'em recalibrated. Godspeed to you and the village.",

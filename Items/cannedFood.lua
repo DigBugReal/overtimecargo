@@ -90,7 +90,7 @@ local data = Instance.get_data(self)
 end)
 
 Callback.add(Callback.ON_INTERACTABLE_ACTIVATE, function(interactable, player)
-
+	player:item_count(fud) <= 0 then return end
 	if (#Instance.find_all(rottenFood)) < 21 then
 		count1 = player:item_count(fud) + 1
 		guilty = player:item_count(fud) 

@@ -19,7 +19,7 @@ Callback.add(Callback.ON_STEP, function()
 for _, actor in ipairs(solar:get_holding_actors()) do
 	if Util.bool(actor.barrier) then
 		local decayForm = ((actor.maxbarrier / 30 / 60) * gm.lerp(0.5, 3, actor.barrier / actor.maxbarrier)) 
-		actor.barrier = actor.barrier + ( decayForm * (0.05 * actor:item_count(solar)) )
+		actor.barrier = actor.barrier + ( decayForm * (0.13 * actor:item_count(solar)) )
 	end
 end
 

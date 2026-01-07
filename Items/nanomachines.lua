@@ -41,8 +41,8 @@ Callback.add(Callback.ON_DAMAGED_PROC, function(actor, hit_info)
 	local stack = actor:item_count(son)
 
 	if actor.nanCooldown <= 0 and actor.shield < 1 and actor.hp <= actor.maxhp * 0.5 then
-		actor.maxshield_base = actor.maxshield_base + (30 * stack)
-		actor.shieldStore = actor.shieldStore + (30 * stack)
+		actor.maxshield_base = actor.maxshield_base + (60 * stack)
+		actor.shieldStore = actor.shieldStore + (60 * stack)
 		actor.shield = actor.maxshield_base
 		Sound.wrap(gm.constants.wDroneUpgrader_Activate):play(actor.x, actor.y, 2, 1.2)
 		
