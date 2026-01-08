@@ -172,12 +172,12 @@ end)
 -- end)
 
 Callback.add(Callback.ON_DAMAGED_PROC, function(actor, hit_info)
-	local inflictor = (Instance.wrap(hit_info.inflictor))
-	if inflictor:item_count(fin) <= 0 then return end
-	
-	if GM.actor_is_classic(actor) and not GM.actor_is_boss(actor) then
-		if actor.object_index ~= gm.constants.oLizardFG and actor.object_index ~= gm.constants.oLizardF then
-			if Instance.exists(inflictor) then
+	local inflictor = hit_info.inflictor
+	if Instance.exists(inflictor) then
+		if inflictor:item_count(fin) <= 0 then return end
+		
+		if GM.actor_is_classic(actor) and not GM.actor_is_boss(actor) then
+			if actor.object_index ~= gm.constants.oLizardFG and actor.object_index ~= gm.constants.oLizardF then
 				if actor.elite_type ~= -1 and actor.hp <= actor.maxhp * ((0.13 * inflictor:item_count(fin)) / (1 + 0.13 * inflictor:item_count(fin))) then
 					if actor.hp <= 0 then
 						actor.hp = 1
