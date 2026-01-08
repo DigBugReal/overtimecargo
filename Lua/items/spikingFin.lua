@@ -78,7 +78,7 @@ Callback.add(debuffspiking.on_apply, function(actor)
 	actor.pVspeed = -14
 	actor.intangible = 1
 	Sound.wrap(gm.constants.wBoss1Shoot1):play(actor.x, actor.y, 0.8, 1.1 + math.random() * 0.2)
-	Sound.wrap(gm.constants.wFwoosh):play(actor.x, actor.y, 1.5, 0.8 + math.random() * 0.2)
+	Sound.wrap(gm.constants.wFwoosh):play(actor.x, actor.y, 1.6, 1.2 + math.random() * 0.2)
 end)
 
 Callback.add(debuffspiking.on_step, function(actor)

@@ -17,10 +17,6 @@ fudBuff.show_icon = false
 local rottenFood = Object.new("cannedFoodDrops")
 rottenFood:set_sprite(sprite_proj)
 
-Callback.add(fud.on_acquired, function(actor)
-	Instance.get_data(rottenFood).parent = actor
-end)
-
 Callback.add(rottenFood.on_create, function(self)
 	local data = Instance.get_data(self)
 	

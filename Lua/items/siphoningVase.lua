@@ -3,7 +3,7 @@ local sprite_vase = Sprite.new("siphoningVase", path.combine(PATH, "Sprites/item
 local vase = Item.new("siphoningVase")
 vase:set_sprite(sprite_vase)
 vase:set_tier(ItemTier.RARE)
-vase.loot_tags = Item.LootTag.CATEGORY_DAMAGE, Item.LootTag.CATEGORY_HEALING
+vase.loot_tags = Item.LootTag.CATEGORY_DAMAGE + Item.LootTag.CATEGORY_HEALING
 
 local log = ItemLog.new_from_item(vase)
 log.group = ItemLog.Group.RARE

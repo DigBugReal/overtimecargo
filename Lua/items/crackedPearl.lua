@@ -3,7 +3,7 @@ local sprite_purl = Sprite.new("CrackedPearl", path.combine(PATH, "Sprites/item/
 local purl = Item.new("crackedPearl")
 purl:set_sprite(sprite_purl)
 purl:set_tier(ItemTier.UNCOMMON)
-purl.loot_tags = Item.LootTag.CATEGORY_UTILITY, Item.LootTag.CATEGORY_DAMAGE, Item.LootTag.CATEGORY_HEALING
+purl.loot_tags = Item.LootTag.CATEGORY_UTILITY + Item.LootTag.CATEGORY_DAMAGE + Item.LootTag.CATEGORY_HEALING
 
 local log = ItemLog.new_from_item(purl)
 log.group = ItemLog.Group.UNCOMMON

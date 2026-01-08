@@ -4,7 +4,7 @@ local sprite_solar = Sprite.new("solarSynthesizerSpr", path.combine(PATH, "Sprit
 local solar = Item.new("solarSynthesizer", NAMESPACE)
 solar:set_sprite(sprite_solar)
 solar:set_tier(ItemTier.COMMON)
-solar.loot_tags = Item.LootTag.CATEGORY_HEALING, Item.LootTag.CATEGORY_UTILITY
+solar.loot_tags = Item.LootTag.CATEGORY_HEALING + Item.LootTag.CATEGORY_UTILITY
 
 local log = ItemLog.new_from_item(solar)
 log.group = ItemLog.Group.COMMON

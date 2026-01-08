@@ -3,7 +3,7 @@ local sprite_hat_ready = Sprite.new("magiciansHatReady", path.combine(PATH, "Spr
 
 local hat = Equipment.new("magiciansHat")
 hat:set_sprite(sprite_hat)
-hat.loot_tags = Item.LootTag.CATEGORY_UTILITY, Item.LootTag.EQUIPMENT_BLACKLIST_CHAOS, Item.LootTag.EQUIPMENT_BLACKLIST_ACTIVATOR, Item.LootTag.EQUIPMENT_BLACKLIST_ENIGMA
+hat.loot_tags = Item.LootTag.CATEGORY_UTILITY + Item.LootTag.EQUIPMENT_BLACKLIST_CHAOS + Item.LootTag.EQUIPMENT_BLACKLIST_ACTIVATOR + Item.LootTag.EQUIPMENT_BLACKLIST_ENIGMA
 hat.cooldown = 60 * 90
 
 local parselect = Particle.new("particleMagiciansHatSelect")

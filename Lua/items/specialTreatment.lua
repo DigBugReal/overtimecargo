@@ -7,7 +7,7 @@ local sound_pop = Sound.new("specialTreatmentPop", path.combine(PATH, "Sounds/sp
 local treatment = Item.new("specialTreatment")
 treatment:set_sprite(sprite_treatment)
 treatment:set_tier(ItemTier.COMMON)
-treatment.loot_tags = Item.LootTag.CATEGORY_HEALING, Item.LootTag.CATEGORY_UTILITY
+treatment.loot_tags = Item.LootTag.CATEGORY_HEALING + Item.LootTag.CATEGORY_UTILITY
 
 local log = ItemLog.new_from_item(treatment)
 log.group = ItemLog.Group.COMMON

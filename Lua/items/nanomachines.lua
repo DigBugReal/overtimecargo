@@ -3,7 +3,7 @@ local sprite_nanomachines = Sprite.new("nanomachines", path.combine(PATH, "Sprit
 local son = Item.new("nanomachines")
 son:set_sprite(sprite_nanomachines)
 son:set_tier(ItemTier.RARE)
-son.loot_tags = Item.LootTag.CATEGORY_UTILITY, Item.LootTag.CATEGORY_HEALING
+son.loot_tags = Item.LootTag.CATEGORY_UTILITY + Item.LootTag.CATEGORY_HEALING
 
 local log = ItemLog.new_from_item(son)
 log.group = ItemLog.Group.RARE

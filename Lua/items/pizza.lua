@@ -3,7 +3,7 @@ local sprite_pizza = Sprite.new("Pizza", path.combine(PATH, "Sprites/item/pizza.
 local pizza = Item.new("pizza")
 pizza:set_sprite(sprite_pizza)
 pizza:set_tier(ItemTier.RARE)
-pizza.loot_tags = Item.LootTag.CATEGORY_DAMAGE, Item.LootTag.CATEGORY_UTILITY, Item.LootTag.CATEGORY_HEALING
+pizza.loot_tags = Item.LootTag.CATEGORY_DAMAGE + Item.LootTag.CATEGORY_UTILITY + Item.LootTag.CATEGORY_HEALING
 
 local log = ItemLog.new_from_item(pizza)
 log.group = ItemLog.Group.RARE

@@ -4,7 +4,7 @@ local sprite_buff = Sprite.new("holyBuffIcon", path.combine(PATH, "Sprites/buffs
 local holy = Item.new("holyPauldron", NAMESPACE)
 holy:set_sprite(sprite_holy)
 holy:set_tier(ItemTier.RARE)
-holy.loot_tags = Item.LootTag.CATEGORY_HEALING, Item.LootTag.CATEGORY_UTILITY
+holy.loot_tags = Item.LootTag.CATEGORY_HEALING + Item.LootTag.CATEGORY_UTILITY
 
 local log = ItemLog.new_from_item(holy)
 log.group = ItemLog.Group.RARE

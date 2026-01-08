@@ -4,7 +4,7 @@ local sprite_plate_used = Sprite.new("regenPlatingUsed", path.combine(PATH, "Spr
 local plate = Item.new("regenPlating")
 plate:set_sprite(sprite_plate)
 plate:set_tier(ItemTier.UNCOMMON)
-plate.loot_tags = Item.LootTag.CATEGORY_UTILITY, Item.LootTag.CATEGORY_HEALING
+plate.loot_tags = Item.LootTag.CATEGORY_UTILITY + Item.LootTag.CATEGORY_HEALING
 
 local log = ItemLog.new_from_item(plate)
 log.group = ItemLog.Group.UNCOMMON

@@ -6,7 +6,7 @@ local sound_drink = Sound.new("drinkSound", path.combine(PATH, "Sounds/energyDri
 local nrg = Item.new("energyDrink")
 nrg:set_sprite(sprite_nrg)
 nrg:set_tier(ItemTier.COMMON)
-nrg.loot_tags = Item.LootTag.CATEGORY_DAMAGE, Item.LootTag.CATEGORY_UTILITY
+nrg.loot_tags = Item.LootTag.CATEGORY_DAMAGE + Item.LootTag.CATEGORY_UTILITY
 
 local log = ItemLog.new_from_item(nrg)
 log.group = ItemLog.Group.COMMON
